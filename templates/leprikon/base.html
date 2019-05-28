@@ -25,6 +25,7 @@
     .panel { background-color: transparent; }
     .cms-toolbar-item-logo img { height: 45px; }
     .apply-colors-h1-a .green a.btn.btn-primary { color: white; text-decoration: none; }
+    .multiselect-container.dropdown-menu input { display: none; }
   </style>
 
   <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -172,9 +173,6 @@
 </div>
 {% cache 300 page-footer %}{% upstream 'https://www.zoobrno.cz/' '//div[@id="page-footer"]' %}{% endcache %}
 </div>
-  <script type="text/javascript" src="https://www.zoobrno.cz/js/.compile/global-cs.1551255352.js"></script>
-  <script type="text/javascript" src="https://www.google.com/recaptcha/api.js?hl=cs&onload=invisibleCaptchaCallback&render=explicit"></script>
-  <!--script type="text/javascript" src="https://www.zoobrno.cz/js/.compile/cookies-usage.1551255352.js"></script-->
   {% render_block "js" %}
 
   {% livechat %}
