@@ -21,7 +21,7 @@ services:
       EMAIL_SUBJECT_PREFIX: '[ZOO Brno]'
       MEMCACHED_KEY_PREFIX: zoobrno
       MEMCACHED_LOCATION: memcached:11211
-      ROCKETCHAT_URL: https://chat.zoobrno.cz
+      ROCKETCHAT_URL: https://chat.zoobrno.leprikon.cz
       SERVER_EMAIL: '"Zoo Brno" <vzdelavanizoo@zoobrno.cz>'
     ports:
       - 80:80
@@ -37,6 +37,7 @@ services:
   mongo:
     image: mongo:3-jessie
     command: mongod --smallfiles --oplogSize 128 --replSet rs0
+    hostname: mongo
     volumes:
       - /tmp
       - ./mongo:/data/db
@@ -71,7 +72,7 @@ services:
   smtp:
     image: catatnight/postfix
     environment:
-      maildomain: zoobrno.leprikon.cz
+      maildomain: zoobrno.cz
       smtp_user: zoobrno:emailpassword
     stdin_open: true
     volumes:
