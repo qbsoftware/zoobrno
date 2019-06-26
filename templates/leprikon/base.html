@@ -19,15 +19,6 @@
   <!-- Bootstrap -->
   <link rel="stylesheet" href="{% static 'leprikon/lib/bootstrap/css/bootstrap.min.css' %}"/>
 
-  <style type="text/css" media="screen,projection,tv">
-    html, body { margin-top: 0; padding-top: 0; }
-    .page-header { margin: 0; padding-bottom: 0; border-bottom: 0; }
-    .panel { background-color: transparent; }
-    .cms-toolbar-item-logo img { height: 45px; }
-    .apply-colors-h1-a .green a.btn.btn-primary { color: white; text-decoration: none; }
-    .multiselect-container.dropdown-menu input { display: none; }
-  </style>
-
   <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
   <!--[if lt IE 9]>
@@ -35,22 +26,31 @@
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
   <![endif]-->
 
-  <link rel="stylesheet" type="text/css" media="screen,projection,tv,print" href="https://www.zoobrno.cz/css/.compile/default.1551255350.css" />
-  <link rel="stylesheet" type="text/css" media="screen,projection,tv" href="https://www.zoobrno.cz/css/.compile/global.1551255350.css" />
-  <link rel="stylesheet" type="text/css" media="screen,projection,tv" href="https://www.zoobrno.cz/css/.compile/calendar.1551255351.css" />
+  {% cache 300 stylesheet %}{% upstream 'https://www.zoobrno.cz/' '//link[@rel="stylesheet"]' %}{% endcache %}
+  <link rel="stylesheet" type="text/css" media="all" href="{% static 'leprikon/css/layout.css' %}"/>
+  {% if backends %}
+  <!-- Bootstrap social -->
+  <link rel="stylesheet" type="text/css" media="all" href="{% static 'leprikon/lib/font-awesome/css/font-awesome.min.css' %}"/>
+  <link rel="stylesheet" type="text/css" media="all" href="{% static 'leprikon/lib/bootstrap-social.min.css' %}"/>
+  {% endif %}
   {% render_block "css" %}
+
+  <style type="text/css" media="screen,projection,tv">
+    html, body { margin-top: 0; padding-top: 0; }
+    .page-header { margin: 0; padding-bottom: 0; border-bottom: 0; }
+    .panel { background-color: transparent; }
+    .cms-toolbar-item-logo img { height: 45px; }
+    .btn.btn-primary { color: white !important; text-decoration: none; background-color: #5e7119; border-color: #617401; }
+    .btn.btn-primary:active, .btn-primary:focus, .btn-primary:hover { background-color: #617401 !important; border-color: #617401 !important; }
+    .multiselect-container.dropdown-menu input { display: none; }
+    .box { border: none; }
+  </style>
 
   <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
   <script src="{% static 'leprikon/lib/jquery.min.js' %}"></script>
 
   <!-- Include all compiled plugins (below), or include individual files as needed -->
   <script src="{% static 'leprikon/lib/bootstrap/js/bootstrap.min.js' %}"></script>
-
-  {% if backends %}
-  <!-- Bootstrap social -->
-  <link rel="stylesheet" type="text/css" media="all" href="{% static 'leprikon/lib/font-awesome/css/font-awesome.min.css' %}"/>
-  <link rel="stylesheet" type="text/css" media="all" href="{% static 'leprikon/lib/bootstrap-social.min.css' %}"/>
-  {% endif %}
 </head>
 <body class="module-content two-cols-right brown noicon">
 {% cms_toolbar %}
@@ -84,21 +84,12 @@
 <div class="column size1of1">
 <div class="page-container beige">
  <div id="js-off-canvas" class="row w768-lock off-canvas">
- <div class="mainbar column  size3of5 _w768-size2of3 print-size1of1 apply-colors-h1-a">
+ <div class="col-sm-8 apply-colors-h1-a">
 {% cache 300 page-header-mobile %}{% upstream 'https://www.zoobrno.cz/' '//div[@id="page-header-mobile"]' %}{% endcache %}
 <div id="main" class="main-col">
 <div class="growl">
         </div>
 <div class="element article full green noicon mod">
-<div class="hd main heading">
-  <div class="row mobile-lock">
-    <div class="column size1of1">
-      <h1 class=" head">
-          {% block heading %}{% endblock %}
-              </h1>
-    </div>
-      </div>
-</div>
 <div class="bd">
 <div class="content">
 {% block content %}{% endblock %}
@@ -109,7 +100,7 @@
 </div>
 </div>
  </div>
-  <div class="right sidebar column size2of5 _w768-size2of7 print-size1of1">
+  <div class="col-sm-4">
 <div id="right-col" class="right-col zeta">
 <div class="row gap-0_5x panel">
   <div class="hd heading">
