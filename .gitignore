@@ -3,6 +3,5 @@
 /dkim/
 /docker-compose.override.yml
 /media/
-/mongo/
-/mysql/
-/*.tar.gz
+/mongo*
+/mysql*
