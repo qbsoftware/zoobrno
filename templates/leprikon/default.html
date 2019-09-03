@@ -59,15 +59,6 @@
 </head>
 <body class="module-content two-cols-right brown noicon">
 {% cms_toolbar %}
-<!-- Google Tag Manager -->
-  <noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-5VLVDK"
-  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-  '//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-  })(window,document,'script','dataLayer','GTM-5VLVDK');</script>
-<!-- End Google Tag Manager -->
   <!--aside class="neutral box cookies_checking_box z-i-7 js-cookie-consent-container">
     <div class="bd">
       <div class="row flex-row">
@@ -111,41 +102,8 @@
   <div class="hd heading">
   <div class="row mobile-lock">
     <div class="column size1of2 ">
-      {% if request.user.is_authenticated %}
-      <h3 class="header">Uživatel</h3>
-      <div class="dropdown">
-          <button class="btn btn-default dropdown-toggle" type="button" id="user_menu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-              {{ request.user.get_full_name | default:request.user.get_username }}
-              <span class="caret"></span>
-          </button>
-          <ul class="dropdown-menu" aria-labelledby="user_menu">
-              <li><a href="{% url_with_back 'leprikon:user_update' %}">{% trans 'Edit' %}</a></li>
-              <li><a href="{% url_with_back 'leprikon:user_email' %}">{% trans 'Change e-mail' %}</a></li>
-              <li><a href="{% url_with_back 'leprikon:user_password' %}">{% trans 'Change password' %}</a></li>
-              <li><a href="{% url_with_back 'leprikon:user_logout' %}">{% trans 'Log out' %}</a></li>
-              {% if 'google-plus' in backends.not_associated %}
-              <li>
-                  <a href="{% url 'social:begin' 'google-plus' %}?next={{ next }}">
-                      <button class="btn btn-block btn-sm btn-social btn-google">
-                          <i class="fa fa-google pull-left"></i>
-                          {% trans 'Link with your Google account' %}
-                      </button>
-                  </a>
-              </li>
-              {% endif %}
-              {% if 'facebook' in backends.not_associated %}
-              <li>
-                  <a href="{% url 'social:begin' 'facebook' %}?next={{ next }}">
-                      <button class="btn btn-social btn-sm btn-facebook">
-                          <i class="fa fa-facebook pull-left"></i>
-                          {% trans 'Link with your Facebook account' %}
-                      </button>
-                  </a>
-              </li>
-              {% endif %}
-          </ul>
-      </div>
-      {% endif %}
+        <h3 class="header">Uživatel</h3>
+        {% include 'leprikon/user_dropdown.html' %}
     </div>
     <div class="column size1of2 text-right">
         <h3 class="header">Školní rok</h3>
@@ -156,7 +114,7 @@
 </div>
 <div class="row gap-0_5x">
   <div class="mod">
-  {% show_menu_below_id 'leprikon' 0 100 0 1 'menu.html' %}
+      {% show_menu 1 100 0 100 'menu.html' 'CMSMenu,LeprikonMenu' %}
   </div>
 </div>
  </div>
