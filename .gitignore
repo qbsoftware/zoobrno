@@ -3,5 +3,4 @@
 /dkim/
 /docker-compose.override.yml
 /media/
-/mongo*
 /mysql*
