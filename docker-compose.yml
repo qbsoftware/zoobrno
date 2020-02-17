@@ -9,7 +9,6 @@ services:
       - mysql
       - smtp
     environment:
-      SECRET_KEY: secretkey
       DATABASE_ENGINE: django.db.backends.mysql
       DATABASE_HOST: ''
       DATABASE_NAME: zoobrno
@@ -19,14 +18,13 @@ services:
       EMAIL_HOST_PASSWORD: emailpassword
       EMAIL_HOST_USER: zoobrno
       EMAIL_SUBJECT_PREFIX: '[ZOO Brno]'
-      MEMCACHED_KEY_PREFIX: zoobrno
-      MEMCACHED_LOCATION: memcached:11211
-      SERVER_EMAIL: '"Zoo Brno" <vzdelavanizoo@zoobrno.cz>'
       LEPRIKON_VARIABLE_SYMBOL_EXPRESSION: '30000000 + reg.subject.subject_type_id * 1000000 + (reg.created.year % 100) * 10000 + (reg.id % 10000)'
+      MEMCACHED_LOCATION: memcached:11211
+      SECRET_KEY: secretkey
+      SERVER_EMAIL: '"Zoo Brno" <vzdelavanizoo@zoobrno.cz>'
     ports:
-      - 80:80
+      - 127.0.0.1:10050:80
     volumes:
-      - ./.ipython:/root/.ipython
       - ./data:/app/data
       - ./media:/app/htdocs/media
       - mysql:/var/run/mysqld
@@ -52,7 +50,7 @@ services:
       smtp_user: zoobrno:emailpassword
     stdin_open: true
     volumes:
-    - ./dkim:/etc/opendkim/domainkeys
+      - ./dkim:/etc/opendkim/domainkeys
     tty: true
 
 volumes:
