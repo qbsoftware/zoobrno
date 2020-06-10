@@ -27,6 +27,7 @@ services:
       MONGO_URL: mongodb://mongo:27017/rocketchat
       ROCKETCHAT_API_URL: http://chat:3000/_chat
       SECRET_KEY: secretkey
+      SENTRY_ENVIRONMENT: 'zoobrno'
       SERVER_EMAIL: '"Zoo Brno" <vzdelavanizoo@zoobrno.cz>'
     ports:
       - 127.0.0.1:10050:80
