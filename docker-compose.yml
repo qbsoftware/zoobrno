@@ -1,35 +1,47 @@
 version: '3.4'
+
+x-leprikon: &leprikon
+  image: misli/zoobrno
+  depends_on:
+    - mysql
+    - redis
+    - smtp
+  environment:
+    DATABASE_ENGINE: django.db.backends.mysql
+    DATABASE_HOST: ''
+    DATABASE_NAME: zoobrno
+    DATABASE_USER: zoobrno
+    DATABASE_PASSWORD: dbpassword
+    EMAIL_HOST: smtp
+    EMAIL_HOST_USER: zoobrno
+    EMAIL_HOST_PASSWORD: emailpassword
+    EMAIL_SUBJECT_PREFIX: '[Zoo Brno]'
+    LEPRIKON_VARIABLE_SYMBOL_EXPRESSION: '30000000 + reg.subject.subject_type_id * 1000000 + (reg.created.year % 100) * 10000 + (reg.id % 10000)'
+    CACHE_LOCATION: unix:///var/run/redis/redis.sock
+    SECRET_KEY: secretkey
+    SENTRY_ENVIRONMENT: 'zoobrno'
+    SERVER_EMAIL: '"Zoo Brno" <vzdelavanizoo@zoobrno.cz>'
+    SUPERVISORD_RUN: "gunicorn cron"
+    GUNICORN_OPTIONS: "--workers 9"
+  volumes:
+    - ./data:/app/data
+    - ./media:/app/htdocs/media
+    - ./static:/app/htdocs/static
+    - ./run:/app/run
+    - mysql:/var/run/mysqld
+    - redis:/var/run/redis
+
 services:
 
   leprikon:
-    image: misli/zoobrno
+    <<: *leprikon
     build: .
-    depends_on:
-      - mysql
-      - redis
-      - smtp
-    environment:
-      DATABASE_ENGINE: django.db.backends.mysql
-      DATABASE_HOST: ''
-      DATABASE_NAME: zoobrno
-      DATABASE_USER: zoobrno
-      DATABASE_PASSWORD: dbpassword
-      EMAIL_HOST: smtp
-      EMAIL_HOST_USER: zoobrno
-      EMAIL_HOST_PASSWORD: emailpassword
-      EMAIL_SUBJECT_PREFIX: '[Zoo Brno]'
-      LEPRIKON_VARIABLE_SYMBOL_EXPRESSION: '30000000 + reg.subject.subject_type_id * 1000000 + (reg.created.year % 100) * 10000 + (reg.id % 10000)'
-      CACHE_LOCATION: unix:///var/run/redis/redis.sock
-      SECRET_KEY: secretkey
-      SENTRY_ENVIRONMENT: 'zoobrno'
-      SERVER_EMAIL: '"Zoo Brno" <vzdelavanizoo@zoobrno.cz>'
     ports:
       - 127.0.0.1:10050:80
-    volumes:
-      - ./data:/app/data
-      - ./media:/app/htdocs/media
-      - mysql:/var/run/mysqld
-      - redis:/var/run/redis
+
+  leprikon-collectstatic:
+    <<: *leprikon
+    command: leprikon collectstatic --no-input
 
   redis:
     image: redis
