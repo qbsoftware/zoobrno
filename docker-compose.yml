@@ -22,7 +22,7 @@ x-leprikon: &leprikon
     SENTRY_ENVIRONMENT: 'zoobrno'
     SERVER_EMAIL: '"Zoo Brno" <vzdelavanizoo@zoobrno.cz>'
     SUPERVISORD_RUN: "gunicorn cron"
-    GUNICORN_OPTIONS: "--workers 9"
+    GUNICORN_WORKERS: "9"
   volumes:
     - ./data:/app/data
     - ./media:/app/htdocs/media
@@ -36,8 +36,6 @@ services:
   leprikon:
     <<: *leprikon
     build: .
-    ports:
-      - 127.0.0.1:10050:80
 
   leprikon-collectstatic:
     <<: *leprikon
