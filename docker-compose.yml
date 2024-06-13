@@ -5,22 +5,20 @@ x-leprikon: &leprikon
   depends_on:
     - mysql
     - redis
-    - smtp
+    - smtprelay
   environment:
     DATABASE_ENGINE: django.db.backends.mysql
     DATABASE_HOST: ''
     DATABASE_NAME: zoobrno
     DATABASE_USER: zoobrno
     DATABASE_PASSWORD: dbpassword
-    EMAIL_HOST: smtp
-    EMAIL_HOST_USER: zoobrno
-    EMAIL_HOST_PASSWORD: emailpassword
+    EMAIL_HOST: smtprelay
     EMAIL_SUBJECT_PREFIX: '[Zoo Brno]'
     LEPRIKON_VARIABLE_SYMBOL_EXPRESSION: '30000000 + reg.subject.subject_type_id * 1000000 + (reg.created.year % 100) * 10000 + (reg.id % 10000)'
     CACHE_LOCATION: unix:///var/run/redis/redis.sock
     SECRET_KEY: secretkey
     SENTRY_ENVIRONMENT: 'zoobrno'
-    SERVER_EMAIL: '"Zoo Brno" <vzdelavanizoo@zoobrno.cz>'
+    SERVER_EMAIL: '"Zoo Brno" <zoobrno@leprikon.cz>'
     SUPERVISORD_RUN: "gunicorn cron"
     GUNICORN_WORKERS: "9"
   volumes:
@@ -28,6 +26,7 @@ x-leprikon: &leprikon
     - ./media:/app/htdocs/media
     - ./static:/app/htdocs/static
     - ./run:/app/run
+    - ./templates:/app/templates
     - mysql:/var/run/mysqld
     - redis:/var/run/redis
 
@@ -59,15 +58,14 @@ services:
       - mysql:/var/run/mysqld
       - ./mysql:/var/lib/mysql
 
-  smtp:
-    image: catatnight/postfix
+  smtprelay:
+    image: juanluisbaptiste/postfix
     environment:
-      maildomain: zoobrno.cz
-      smtp_user: zoobrno:emailpassword
-    stdin_open: true
-    tty: true
-    volumes:
-      - ./dkim:/etc/opendkim/domainkeys
+      SERVER_HOSTNAME: leprikon.cz
+      SMTP_SERVER: smtp.savana.cz
+      SMTP_PORT: 465
+      SMTP_USERNAME: zoobrno@leprikon.cz
+      SMTP_PASSWORD: emailpassword
 
 volumes:
   mysql:
