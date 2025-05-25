@@ -4,4 +4,4 @@ set -e
 
 DATE=$(date '+%Y%m%d-%H%M')
 
-docker-compose exec mysql sh -c 'exec mysqldump -uroot -p"$MYSQL_ROOT_PASSWORD" $MYSQL_DATABASE' | gzip > dump-$DATE.sql.gz
+docker compose exec leprikon sh -c 'exec mysqldump -hmysql -u"$DATABASE_USER" -p"$DATABASE_PASSWORD" $DATABASE_NAME' | gzip > dump-$DATE.sql.gz
