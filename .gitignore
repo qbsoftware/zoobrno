@@ -1,3 +1,4 @@
+*.py[co]
 /data
 /dkim
 /docker-compose.*.yml
@@ -6,4 +7,4 @@
 /redis*
 /run
 /static
-/uploads
+/venv
